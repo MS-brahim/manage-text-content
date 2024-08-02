@@ -1,0 +1,12 @@
+[
+    {
+        "email": "writer@example.com",
+        "password": "123456",
+        "role": "Writer"
+    },
+    {
+        "email": "publisher@example.com",
+        "password": "123456",
+        "role": "Publisher"
+    }
+]
