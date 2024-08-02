@@ -13,8 +13,10 @@ const Writer = () => {
 
     useEffect(() => {
         // Load existing content from localStorage on component mount
-        const storedContent = getLocalStorageData('content') || [];
-        setUploadedContent(storedContent);
+        if (typeof window !== 'undefined') {
+            const storedContent = getLocalStorageData('content') || [];
+            setUploadedContent(storedContent);
+        }
     }, []);
 
     const handleUpload = () => {
@@ -24,9 +26,9 @@ const Writer = () => {
             content: editorContent,
         };
 
-        const updatedContent = [...uploadedContent, newContent]; 
+        const updatedContent = [...uploadedContent, newContent];
         setTimeout(() => {
-            setUploadedContent(updatedContent); 
+            setUploadedContent(updatedContent);
             setLocalStorageData('content', updatedContent);
             setEditorContent('');
             setUploading(false);
@@ -57,8 +59,8 @@ const Writer = () => {
                 className="w-40 flex justify-center items-center my-4 rounded-md bg-indigo-600 px-10 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 onClick={handleUpload}>
                 {
-                    uploading && 
-                <span class="loader me-1"></span>
+                    uploading &&
+                    <span class="loader me-1"></span>
                 }
                 Upload
             </button>
@@ -67,13 +69,13 @@ const Writer = () => {
             <ul>
                 {uploadedContent.slice().reverse().map(item => (
                     <li key={item.id} className="my-2 p-2 border rounded-md">
-                    <div className='flex justify-between'>
+                        <div className='flex justify-between'>
 
-                        <div dangerouslySetInnerHTML={{ __html: item.content }} />
-                        <button 
-                            onClick={()=> handleRemoveItem(item.id)}
-                        className='h-8 bg-red-500 px-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 rounded-md'>Remove</button>
-                    </div>
+                            <div dangerouslySetInnerHTML={{ __html: item.content }} />
+                            <button
+                                onClick={() => handleRemoveItem(item.id)}
+                                className='h-8 bg-red-500 px-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 rounded-md'>Remove</button>
+                        </div>
                     </li>
                 ))}
             </ul>
