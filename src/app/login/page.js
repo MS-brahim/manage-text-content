@@ -10,17 +10,28 @@ const Login = () => {
     const router = useRouter();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const handleLogin = (e) => {
-
+        setLoading(true);
         e.preventDefault();
         const user = users.find(u => u.email === email && u.password === password);
         if (user) {
-            login(user);
-            router.push(`/${user.role.toLowerCase()}`);
+            setTimeout(() => {
+                setLoading(false);
+                login(user);
+                router.push(`/${user.role.toLowerCase()}`);
+            }, 1500);
         } else {
+            setLoading(false);
             alert('Invalid credentials');
         }
+    };
+
+    const handleUserTypeDemo = (role) => {
+        const user = users.find(u => u.role === role);
+        setEmail(user.email);
+        setPassword(user.password);
     };
 
     return (
@@ -37,6 +48,20 @@ const Login = () => {
                     <h2 className="mb-2 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
                         Sign in to your account
                     </h2>
+                    <p>These buttons are just a demo for testing purposes. Please click below to proceed. 👇</p>
+                    <div class="inline-flex w-full">
+                        <button
+                            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 w-1/2 rounded-l"
+                            onClick={() => handleUserTypeDemo("Publisher")}>
+                            Publisher
+                        </button>
+                        <button
+                            onClick={() => handleUserTypeDemo("Writer")}
+                            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 w-1/2 rounded-r">
+                            Writer
+                        </button>
+                    </div>
+
                 </div>
 
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -79,9 +104,14 @@ const Login = () => {
 
                         <div>
                             <button
+                                disabled={loading}
                                 type="submit"
-                                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                className="items-center flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                             >
+                                {
+                                    loading &&
+                                    <span class="loader me-1"></span>
+                                }
                                 Sign in
                             </button>
                         </div>

@@ -34,7 +34,7 @@ const Publisher = () => {
 
     return (
         <div className='mt-4'>
-            <h1>Published Content</h1>
+            <h2>Published Content</h2>
             {uploadedContent.length === 0 ? (
                 <p>No content available.</p>
             ) : (
