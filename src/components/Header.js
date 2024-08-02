@@ -14,7 +14,7 @@ export default function Header() {
                 </div>
                 <div>
                     <button onClick={() => router.push('/login')}>
-                        Login as {user && user.role === "Writer" ? "Publisher" : "Writer"}
+                        Switch to {user && user.role === "Writer" ? "Publisher" : "Writer"}
                     </button>
                 </div>
             </div>
