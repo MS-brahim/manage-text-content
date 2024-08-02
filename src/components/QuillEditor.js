@@ -1,17 +1,17 @@
-import React, { useEffect, useRef } from 'react';
-import Quill from 'quill';
-import 'quill/dist/quill.snow.css'; 
+import React from 'react';
+import dynamic from 'next/dynamic';
+import 'react-quill/dist/quill.snow.css';
 
-const QuillEditor = ({ onChange }) => {
-  const quillRef = useRef(null);
-  const editorRef = useRef(null); 
+// Dynamically import ReactQuill with SSR disabled
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
-  useEffect(() => {
-    if (editorRef.current) return; 
-
-    const quill = new Quill(quillRef.current, {
-      theme: 'snow',
-      modules: {
+const QuillEditor = ({ value, onChange }) => {
+  return (
+    <ReactQuill
+      value={value}
+      onChange={onChange}
+      theme="snow"
+      modules={{
         toolbar: [
           ['bold', 'italic', 'underline'],
           ['image'],
@@ -19,18 +19,10 @@ const QuillEditor = ({ onChange }) => {
           [{ color: [] }, { background: [] }],
           [{ list: 'ordered' }, { list: 'bullet' }],
         ],
-      },
-    });
-
-    editorRef.current = quill;
-
-    quill.on('text-change', () => {
-      const content = quill.root.innerHTML;
-      onChange(content);
-    });
-  }, [onChange]);
-
-  return <div ref={quillRef} style={{ minHeight: '300px' }} />;
+      }}
+      style={{ minHeight: '300px' }}
+    />
+  );
 };
 
 export default QuillEditor;
