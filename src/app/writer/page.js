@@ -16,7 +16,7 @@ const Writer = () => {
         };
         const updatedContent = [...uploadedContent, newContent]; 
         setUploadedContent(updatedContent); 
-        localStorage.setItem('content', JSON.stringify(updatedContent));
+        window.localStorage.setItem('content', JSON.stringify(updatedContent));
     };
 
     const handleEditorChange = (content) => {

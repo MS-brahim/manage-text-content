@@ -6,13 +6,13 @@ const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(() => {
-        const userStorage = localStorage.getItem('user');
+        const userStorage = window.localStorage.getItem('user');
         return userStorage ? JSON.parse(userStorage) : {};
     });
     const [userRole, setUserRole] = useState(user?.role || null);
 
     useEffect(() => {
-        localStorage.setItem('user', JSON.stringify(user));
+        window.localStorage.setItem('user', JSON.stringify(user));
     }, [user]);
 
     const login = (user) => {

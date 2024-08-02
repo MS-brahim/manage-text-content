@@ -8,13 +8,13 @@ const Publisher = () => {
     const [uploadedContent, setUploadedContent] = useState([]);
 
     useEffect(() => {
-        const storedContent = localStorage.getItem('content');
+        const storedContent = window.localStorage.getItem('content');
         if (storedContent) {
             setUploadedContent(JSON.parse(storedContent));
         }
 
         const handleStorageChange = () => {
-            const updatedContent = localStorage.getItem('content');
+            const updatedContent = window.localStorage.getItem('content');
             if (updatedContent) {
                 setUploadedContent(JSON.parse(updatedContent));
             }
