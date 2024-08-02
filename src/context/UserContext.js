@@ -1,18 +1,18 @@
 'use client';
 
 import { createContext, useState, useEffect } from 'react';
+import { setLocalStorageData, getLocalStorageData } from '../utils/dbStorage';
 
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-    const [user, setUser] = useState(() => {
-        const userStorage = window.localStorage.getItem('user');
-        return userStorage ? JSON.parse(userStorage) : {};
-    });
+    // Retrieve user data from localStorage or use an empty object
+    const [user, setUser] = useState(getLocalStorageData('user') || {});
     const [userRole, setUserRole] = useState(user?.role || null);
 
     useEffect(() => {
-        window.localStorage.setItem('user', JSON.stringify(user));
+        // Update localStorage whenever user changes
+        setLocalStorageData('user', user);
     }, [user]);
 
     const login = (user) => {
@@ -20,14 +20,8 @@ export const UserProvider = ({ children }) => {
         setUserRole(user.role);
     };
 
-    const logout = () => {
-        setUser({});
-        setUserRole(null);
-        localStorage.removeItem('user');
-    };
-
     return (
-        <UserContext.Provider value={{ userRole, user, login, logout }}>
+        <UserContext.Provider value={{ userRole, user, login }}>
             {children}
         </UserContext.Provider>
     );
